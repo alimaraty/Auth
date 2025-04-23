@@ -11,14 +11,21 @@ class TeacherAuthController extends Controller
 {
     public function loginForm()
     {
+
         return view('auth.teacher.login');
     }
 
     public function login(Request $request)
     {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|min:6',
+        ]);
+
         $credentials = $request->only('email', 'password');
 
         if (Auth::guard('teacher')->attempt($credentials)) {
+            $request->session()->regenerate(); // make session for teacher
             return redirect()->route('teacher.dashboard')->with('success', 'تم تسجيل الدخول بنجاح');
         }
 

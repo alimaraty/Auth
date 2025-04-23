@@ -73,6 +73,7 @@
 
         <form method="POST" action="{{ route('teacher.login') }}">
             @csrf
+            
             <div class="mb-3">
                 <label for="email" class="form-label">البريد الإلكتروني</label>
                 <input type="email" class="form-control" id="email" name="email" placeholder="example@mail.com" required>

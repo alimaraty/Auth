@@ -17,12 +17,17 @@ class StudentAuthController extends Controller
 
     public function login(Request $request)
     {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|min:6',
+        ]);
+
         $credentials = $request->only('email', 'password');
 
         if (Auth::guard('student')->attempt($credentials)) {
+            $request->session()->regenerate(); // make session for student
             return redirect()->route('student.dashboard');
         }
-
         return back()->withErrors(['email' => 'بيانات الدخول غير صحيحة']);
     }
     public function dashboard()
